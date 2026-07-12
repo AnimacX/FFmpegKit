@@ -27,6 +27,12 @@ class BuildFFMPEG: BaseBuild {
         }
     }
 
+    override func cFlags(platform: PlatformType, arch: ArchType) -> [String] {
+        var cFlags = super.cFlags(platform: platform, arch: arch)
+        cFlags.append("-Wno-error=unguarded-availability-new")
+        return cFlags
+    }
+
     override func flagsDependencelibrarys() -> [Library] {
         [.gmp, .nettle, .gnutls]
     }
@@ -168,6 +174,7 @@ class BuildFFMPEG: BaseBuild {
         ]
         arguments += ffmpegConfiguers
         arguments += Build.ffmpegConfiguers
+        arguments.append("--extra-cflags=-Wno-error=unguarded-availability-new")
         arguments.append("--arch=\(arch.cpuFamily)")
         if platform == .android {
             arguments.append("--target-os=android")
@@ -393,6 +400,7 @@ class BuildSRT: BaseBuild {
 
     override func arguments(platform: PlatformType, arch _: ArchType) -> [String] {
         [
+            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
             "-Wno-dev",
 //            "-DUSE_ENCLIB=openssl",
             "-DUSE_ENCLIB=gnutls",

@@ -29,6 +29,7 @@ class BuildHarfbuzz: BaseBuild {
     override func arguments(platform _: PlatformType, arch _: ArchType) -> [String] {
         [
             "-Dglib=disabled",
+            "-Dgobject=disabled",
             "-Ddocs=disabled",
         ]
     }

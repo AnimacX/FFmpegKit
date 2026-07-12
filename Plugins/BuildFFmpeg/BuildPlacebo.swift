@@ -17,6 +17,13 @@ class BuildPlacebo: BaseBuild {
         }
     }
 
+    override func platforms() -> [PlatformType] {
+        // vulkan不支持maccatalyst，所以placebo也要跳过
+        super.platforms().filter {
+            ![.maccatalyst].contains($0)
+        }
+    }
+
     override func arguments(platform _: PlatformType, arch _: ArchType) -> [String] {
         ["-Dxxhash=disabled", "-Dopengl=disabled"]
     }

@@ -6,6 +6,7 @@ PODS:
   - Libass (0.17.1):
     - Libass/Libass (= 0.17.1)
   - Libass/Libass (0.17.1)
+
 DEPENDENCIES:
   - FFmpegKit (from `../`)
   - Libass (from `../`)
@@ -17,7 +18,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  FFmpegKit: 52025e11903a6f3364af5c9e0ae45f7cf04ca20c
-  Libass: e88af2324e1217e3a4c8bdc675f6f23a9dfc7677
+  FFmpegKit: e20f56c3393c5003825da708169de5bce4f5e2f4
+  Libass: ed669aabbb09152d66df216697d3cb0b33383df3
 
-COCOAPODS: 1.15.2
+PODFILE CHECKSUM: f7fc8026e2475cf4fa04aa05ecbf9a756419806a
+
+COCOAPODS: 1.16.2
