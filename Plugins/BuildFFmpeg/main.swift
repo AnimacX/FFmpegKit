@@ -93,14 +93,7 @@ extension Build {
         }
 
         if librarys.isEmpty {
-            librarys.append(contentsOf: [.libshaderc, .vulkan, .lcms2, .libplacebo, .libdav1d, .gmp, .nettle, .gnutls, .readline, .libsmbclient, .libsrt, .libzvbi, .libfreetype, .libfribidi, .libharfbuzz, .libass, .libfontconfig, .libbluray, .FFmpeg, .libmpv])
-        }
-        if BaseBuild.disableGPL {
-            librarys.removeAll {
-                $0 == .readline || $0 == .libsmbclient
-            }
-        } else {
-            Build.ffmpegConfiguers.append("--enable-gpl")
+            librarys.append(contentsOf: [.libshaderc, .vulkan, .lcms2, .libplacebo, .libdav1d, .gmp, .nettle, .gnutls, .libsrt, .libzvbi, .libfreetype, .libfribidi, .libharfbuzz, .libass, .libfontconfig, .libbluray, .FFmpeg])
         }
         for library in librarys {
             try library.build.buildALL()
@@ -110,7 +103,7 @@ extension Build {
     static func printHelp() {
         print("""
         Usage: swift package BuildFFmpeg [OPTION]...
-        Default Build: swift package --disable-sandbox BuildFFmpeg enable-libshaderc enable-vulkan enable-lcms2 enable-libdav1d enable-libplacebo enable-gmp enable-nettle enable-gnutls enbale-readline enable-libsmbclient enable-libsrt enable-libzvbi enable-libfreetype enable-libfribidi enable-libharfbuzz enable-libass enable-FFmpeg enable-libmpv
+        Default Build: swift package --disable-sandbox BuildFFmpeg enable-libshaderc enable-vulkan enable-lcms2 enable-libdav1d enable-libplacebo enable-gmp enable-nettle enable-gnutls enable-libsrt enable-libzvbi enable-libfreetype enable-libfribidi enable-libharfbuzz enable-libass enable-FFmpeg
 
         Options:
             h, -h, --help       display this help and exit
@@ -127,7 +120,6 @@ extension Build {
             enable-libplacebo   depend enable-libshaderc enable-vulkan enable-lcms2 enable-libdav1d
             enable-nettle       depend enable-gmp
             enable-gnutls       depend enable-gmp enable-nettle
-            enable-libsmbclient depend enable-gmp enable-nettle enable-gnutls enbale-readline
             enable-libsrt       depend enable-openssl or enable-gnutls
             enable-libfreetype  build with libfreetype
             enable-libharfbuzz  depend enable-libfreetype
@@ -136,14 +128,13 @@ extension Build {
             enable-libbluray    depend enable-libfreetype enable-libfontconfig
             enable-libzvbi      build with libzvbi
             enable-FFmpeg       build with FFmpeg
-            enable-libmpv       depend enable-libass enable-FFmpeg
             enable-openssl      build with openssl [no]
         """)
     }
 }
 
 enum Library: String, CaseIterable {
-    case libglslang, libshaderc, vulkan, lcms2, libdovi, libdav1d, libplacebo, libfreetype, libharfbuzz, libfribidi, libass, gmp, readline, nettle, gnutls, libsmbclient, libsrt, libzvbi, libfontconfig, libbluray, FFmpeg, libmpv, openssl, libtls, boringssl, libpng, libupnp, libnfs, libsmb2
+    case libglslang, libshaderc, vulkan, lcms2, libdovi, libdav1d, libplacebo, libfreetype, libharfbuzz, libfribidi, libass, gmp, nettle, gnutls, libsrt, libzvbi, libfontconfig, libbluray, FFmpeg, openssl, libtls, boringssl, libpng, libupnp, libnfs, libsmb2
     var version: String {
         switch self {
         case .FFmpeg:
@@ -158,14 +149,10 @@ enum Library: String, CaseIterable {
             return "0.17.1-branch"
         case .libpng:
             return "v1.6.43"
-        case .libmpv:
-            return "v0.37.0"
         case .openssl:
             return "openssl-3.2.1"
         case .libsrt:
             return "v1.5.3"
-        case .libsmbclient:
-            return "samba-4.15.13"
         case .gnutls:
             return "3.8.3"
         case .nettle:
@@ -186,8 +173,6 @@ enum Library: String, CaseIterable {
             return "v1.2.8"
         case .libshaderc:
             return "v2024.0"
-        case .readline:
-            return "readline-8.2"
         case .libglslang:
             return "13.1.1"
         case .libdovi:
@@ -211,12 +196,8 @@ enum Library: String, CaseIterable {
         switch self {
         case .libpng:
             return "https://github.com/glennrp/libpng"
-        case .libmpv:
-            return "https://github.com/mpv-player/mpv"
         case .libsrt:
             return "https://github.com/Haivision/srt"
-        case .libsmbclient:
-            return "https://github.com/samba-team/samba"
         case .nettle:
             return "https://git.lysator.liu.se/nettle/nettle"
         case .gmp:
@@ -235,8 +216,6 @@ enum Library: String, CaseIterable {
             return "https://github.com/KhronosGroup/MoltenVK"
         case .libshaderc:
             return "https://github.com/google/shaderc"
-        case .readline:
-            return "https://git.savannah.gnu.org/git/readline.git"
         case .libglslang:
             return "https://github.com/KhronosGroup/glslang"
         case .libdovi:
@@ -266,10 +245,6 @@ enum Library: String, CaseIterable {
         switch self {
         case .vulkan, .libshaderc, .libglslang, .lcms2, .libplacebo, .libdav1d, .gmp, .gnutls, .libsrt, .libzvbi, .libfontconfig, .libbluray:
             return true
-        case .openssl:
-            return false
-        case .libsmbclient:
-            return !BaseBuild.disableGPL
         default:
             return false
         }
@@ -289,14 +264,10 @@ enum Library: String, CaseIterable {
             return BuildASS()
         case .libpng:
             return BuildPng()
-        case .libmpv:
-            return BuildMPV()
         case .openssl:
             return BuildOpenSSL()
         case .libsrt:
             return BuildSRT()
-        case .libsmbclient:
-            return BuildSmbclient()
         case .gnutls:
             return BuildGnutls()
         case .libdav1d:
@@ -319,8 +290,6 @@ enum Library: String, CaseIterable {
             return BuildShaderc()
         case .libglslang:
             return BuildGlslang()
-        case .readline:
-            return BuildReadline()
         case .libdovi:
             return BuildDovi()
         case .lcms2:
@@ -505,11 +474,7 @@ class BaseBuild {
         for library in librarys {
             let path = thinDir(library: library, platform: platform, arch: arch)
             if FileManager.default.fileExists(atPath: path.path) {
-                if library == .libsmbclient {
-                    cFlags.append("-I\(path.path)/include/samba-4.0")
-                } else {
-                    cFlags.append("-I\(path.path)/include")
-                }
+                cFlags.append("-I\(path.path)/include")
             }
         }
         return cFlags
@@ -531,8 +496,6 @@ class BaseBuild {
                     ldFlags.append("-lhogweed")
                 } else if library == .gnutls {
                     ldFlags.append(contentsOf: ["-framework", "Security", "-framework", "CoreFoundation"])
-                } else if library == .libsmbclient {
-                    ldFlags.append(contentsOf: ["-lresolv", "-lpthread", "-lz", "-liconv"])
                 }
             }
         }

@@ -8,7 +8,6 @@ It includes scripts to build `FFmpeg` native libraries, three executable product
 - Scripts to build FFmpeg native libraries
 - three executable product `ffplay`/`ffmpeg`/`ffprobe` in macos
 - Supports native platforms: `iOS`, `macOS`, `tvOS`, `visionOS`
-- Build MPV
 
 ### Swift Package Manager
 
@@ -24,7 +23,7 @@ swift package --disable-sandbox BuildFFmpeg
 
 ```
 
-## Run ffmpeg ffprobe in code(Features of the lgpl version)
+## Run ffmpeg ffprobe in code
 
 ```swift
 var arguments = ["ffmpeg", "-i", "file1.mp4", "-c:v", "mpeg4", "file2.mp4"]
@@ -54,7 +53,7 @@ swift package BuildFFmpeg -h
 
 ```bash
         Usage: swift package BuildFFmpeg [OPTION]...
-        Default Build: swift package --disable-sandbox BuildFFmpeg enable-libshaderc enable-vulkan enable-lcms2 enable-libdav1d enable-libplacebo enable-gmp enable-nettle enable-gnutls enbale-readline enable-libsmbclient enable-libsrt enable-libzvbi enable-libfreetype enable-libfribidi enable-libharfbuzz enable-libass enable-FFmpeg enable-libmpv
+        Default Build: swift package --disable-sandbox BuildFFmpeg enable-libshaderc enable-vulkan enable-lcms2 enable-libdav1d enable-libplacebo enable-gmp enable-nettle enable-gnutls enable-libsrt enable-libzvbi enable-libfreetype enable-libfribidi enable-libharfbuzz enable-libass enable-FFmpeg
 
         Options:
             h, -h, --help       display this help and exit
@@ -71,17 +70,14 @@ swift package BuildFFmpeg -h
             enable-libplacebo   depend enable-libshaderc enable-vulkan enable-lcms2 enable-libdav1d
             enable-nettle       depend enable-gmp
             enable-gnutls       depend enable-gmp enable-nettle
-            enable-libsmbclient depend enable-gmp enable-nettle enable-gnutls enbale-readline
             enable-libsrt       depend enable-openssl or enable-gnutls
             enable-libfreetype  build with libfreetype
             enable-libharfbuzz  depend enable-libfreetype
             enable-libass       depend enable-libfreetype enable-libfribidi enable-libharfbuzz
             enable-libzvbi      build with libzvbi
             enable-FFmpeg       build with FFmpeg
-            enable-libmpv       depend enable-libass enable-FFmpeg
             enable-openssl      build with openssl [no]
 ```
 ## License
-Because FFmpegKit includes libsmbclient by default, and the GPL is turned on when compiling FFmepg and mpv. So FFmpegKit uses the GPL license.
- 
-Additionally, there is a paid version that adopts the LGPL license (contact us).  
+FFmpegKit uses the **LGPLv3** license. GPL-licensed components (libsmbclient, mpv) have been removed.
+See [LICENSE](LICENSE) for details.

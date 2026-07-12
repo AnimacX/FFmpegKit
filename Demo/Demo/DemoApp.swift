@@ -5,7 +5,7 @@
 //  Created by kintan on 11/27/23.
 //
 
-import libmpv
+import FFmpegKit
 import SwiftUI
 
 @main
@@ -14,16 +14,5 @@ struct DemoApp: App {
         WindowGroup {
             ContentView()
         }
-    }
-}
-
-class Player {
-    let mpv: OpaquePointer
-    init() {
-        mpv = mpv_create()
-        mpv_initialize(mpv)
-        mpv_set_property_string(mpv, "vo", "avfoundation")
-        mpv_set_property_string(mpv, "keepaspect", "yes")
-        mpv_request_log_messages(mpv, "debug")
     }
 }

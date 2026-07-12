@@ -25,7 +25,6 @@ let package = Package(
         .library(name: "hogweed", targets: ["hogweed"]),
         .library(name: "gnutls", targets: ["gnutls"]),
         .library(name: "libass", targets: ["libfreetype", "libfribidi", "libharfbuzz", "libass"]),
-        .library(name: "libmpv", targets: ["FFmpegKit", "libass", "libmpv"]),
         .executable(name: "ffmpeg", targets: ["ffmpeg"]),
         .executable(name: "ffplay", targets: ["ffplay"]),
         .executable(name: "ffprobe", targets: ["ffprobe"]),
@@ -49,7 +48,6 @@ let package = Package(
                 "libfontconfig",
                 .target(name: "libbluray", condition: .when(platforms: [.macOS])),
                 "gmp", "nettle", "hogweed", "gnutls",
-                "libsmbclient",
                 "Libavcodec", "Libavdevice", "Libavfilter", "Libavformat", "Libavutil", "Libswresample", "Libswscale",
             ],
             linkerSettings: [
@@ -206,10 +204,6 @@ let package = Package(
             path: "Sources/libass.xcframework"
         ),
         .binaryTarget(
-            name: "libmpv",
-            path: "Sources/libmpv.xcframework"
-        ),
-        .binaryTarget(
             name: "gmp",
             path: "Sources/gmp.xcframework"
         ),
@@ -232,10 +226,6 @@ let package = Package(
         .binaryTarget(
             name: "gnutls",
             path: "Sources/gnutls.xcframework"
-        ),
-        .binaryTarget(
-            name: "libsmbclient",
-            path: "Sources/libsmbclient.xcframework"
         ),
 //        .binaryTarget(
 //            name: "libssl",

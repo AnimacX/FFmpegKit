@@ -6,7 +6,6 @@
 //
 
 import FFmpegKit
-import libmpv
 import SwiftUI
 
 @main

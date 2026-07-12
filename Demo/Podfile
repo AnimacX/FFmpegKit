@@ -3,11 +3,9 @@ workspace 'Demo.xcworkspace'
 install! 'cocoapods', :generate_multiple_pod_projects => true
 def common
   pod 'Libass', :path => '../'
-  pod 'Libmpv', :path => '../'
   pod 'FFmpegKit', :path => '../'
 #  pod 'Libass',:git => 'https://github.com/kingslay/FFmpegKit.git', :branch => 'main'
 #  pod 'FFmpegKit',:git => 'https://github.com/kingslay/FFmpegKit.git', :branch => 'main'
-#  pod 'Libmpv',:git => 'https://github.com/kingslay/FFmpegKit.git', :branch => 'main'
 end
 target 'iOS' do
   project 'Demo.xcodeproj'

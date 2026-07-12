@@ -28,7 +28,7 @@ class BuildFFMPEG: BaseBuild {
     }
 
     override func flagsDependencelibrarys() -> [Library] {
-        [.gmp, .nettle, .gnutls, .libsmbclient]
+        [.gmp, .nettle, .gnutls]
     }
 
     override func frameworks() throws -> [String] {
@@ -232,7 +232,7 @@ class BuildFFMPEG: BaseBuild {
             let path = URL.currentDirectory + [library.rawValue, platform.rawValue, "thin", arch.rawValue]
             if FileManager.default.fileExists(atPath: path.path), library.isFFmpegDependentLibrary {
                 arguments.append("--enable-\(library.rawValue)")
-                if library == .libsrt || library == .libsmbclient {
+                if library == .libsrt {
                     arguments.append("--enable-protocol=\(library.rawValue)")
                 } else if library == .libdav1d {
                     arguments.append("--enable-decoder=\(library.rawValue)")
@@ -249,10 +249,6 @@ class BuildFFMPEG: BaseBuild {
         return arguments
     }
 
-    /*
-     boxblur_filter_deps="gpl"
-     delogo_filter_deps="gpl"
-     */
     private let ffmpegConfiguers = [
         // Configuration options:
         "--disable-armv5te", "--disable-armv6", "--disable-armv6t2",
@@ -346,7 +342,7 @@ class BuildFFMPEG: BaseBuild {
         "--disable-filters",
         "--enable-filter=aformat", "--enable-filter=amix", "--enable-filter=anull", "--enable-filter=aresample",
         "--enable-filter=areverse", "--enable-filter=asetrate", "--enable-filter=atempo", "--enable-filter=atrim",
-        "--enable-filter=boxblur", "--enable-filter=bwdif", "--enable-filter=delogo",
+        "--enable-filter=bwdif",
         "--enable-filter=equalizer", "--enable-filter=estdif",
         "--enable-filter=firequalizer", "--enable-filter=format", "--enable-filter=fps",
         "--enable-filter=gblur",
