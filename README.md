@@ -7,13 +7,13 @@ It includes scripts to build `FFmpeg` native libraries, three executable product
 ### Features
 - Scripts to build FFmpeg native libraries
 - three executable product `ffplay`/`ffmpeg`/`ffprobe` in macos
-- Supports native platforms: `iOS`, `macOS`, `tvOS`, `visionOS`
+- Supports native platforms: `iOS` v16, `macOS` v10, `tvOS` v16, `visionOS` v1
 
 ### Swift Package Manager
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/kingslay/FFmpegKit.git", .branch("main"))
+    .package(url: "https://github.com/AnimacX/FFmpegKit.git", .branch("main"))
 ]
 ```
 
