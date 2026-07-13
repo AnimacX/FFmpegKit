@@ -15,29 +15,23 @@ jobs:
         with:
           submodules: 'true'
 
-      - name: Set up Xcode
-        run: |
-          sudo xcode-select -s /Applications/Xcode_16.0.app/Contents/Developer
-          xcode-select -p
-          xcodebuild -version
-
       - name: Build iOS
         run: |
           cd Demo
           pod install
-          xcodebuild -workspace Demo.xcworkspace -scheme iOS -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16' build
+          xcodebuild -workspace Demo.xcworkspace -scheme iOS -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build
 
       - name: Build macOS
         run: |
           cd Demo
-          xcodebuild -workspace Demo.xcworkspace -scheme macOS -sdk macosx -destination 'platform=macOS,arch=arm64' build
+          xcodebuild -workspace Demo.xcworkspace -scheme macOS -destination 'generic/platform=macOS' build
 
       - name: Build tvOS
         run: |
           cd Demo
-          xcodebuild -workspace Demo.xcworkspace -scheme tvOS -sdk appletvsimulator -destination 'platform=tvOS Simulator,name=Apple TV' build
+          xcodebuild -workspace Demo.xcworkspace -scheme tvOS -sdk appletvsimulator -destination 'generic/platform=tvOS Simulator' build
 
       - name: Build visionOS
         run: |
           cd Demo
-          xcodebuild -workspace Demo.xcworkspace -scheme visionOS -sdk xrsimulator -destination 'platform=visionOS Simulator,name=Apple Vision Pro' build
+          xcodebuild -workspace Demo.xcworkspace -scheme visionOS -sdk xrsimulator -destination 'generic/platform=visionOS Simulator' build
