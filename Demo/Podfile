@@ -1,6 +1,6 @@
 use_frameworks! :linkage => :static
 workspace 'Demo.xcworkspace'
-install! 'cocoapods'
+install! 'cocoapods', :generate_multiple_pod_projects => true
 def common
   pod 'Libass', :path => '../'
   pod 'FFmpegKit', :path => '../'
@@ -22,11 +22,29 @@ target 'tvOS' do
   platform :tvos, '16.0'
   common
 end
+target 'visionOS' do
+  project 'Demo.xcodeproj'
+  platform :visionos, '1.0'
+  common
+end
 
 post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
+  all_projects = [installer.pods_project] + installer.pod_target_subprojects
+  all_projects.each do |project|
+    project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
+        # 限制每个pod target只在自己平台下构建
+        if target.name.include?('-iOS')
+          config.build_settings['SUPPORTED_PLATFORMS'] = 'iphonesimulator iphoneos'
+        elsif target.name.include?('-macOS')
+          config.build_settings['SUPPORTED_PLATFORMS'] = 'macosx'
+        elsif target.name.include?('-tvOS')
+          config.build_settings['SUPPORTED_PLATFORMS'] = 'appletvsimulator appletvos'
+        elsif target.name.include?('-visionOS')
+          config.build_settings['SUPPORTED_PLATFORMS'] = 'xrsimulator xros'
+        end
+      end
     end
   end
 end
